@@ -1,19 +1,23 @@
 import React from 'react';
-import { Button, Container, Grid, TextField } from '@mui/material';
+import { Container, Grid, TextField } from '@mui/material';
 import FileInput from '../UI/FileInput/FileInput';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   clearForm,
   selectMessageForm,
+  selectMessageFormSubmitLoading,
   updateAuthor,
   updateImage,
   updateMessage,
 } from '../../store/messageFormSlice/messageFormSlice';
 import { postMessage } from '../../store/messageFormSlice/messageFormThunks';
+import { LoadingButton } from '@mui/lab';
+import SendIcon from '@mui/icons-material/Send';
 
 const MessageForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const form = useAppSelector(selectMessageForm);
+  const loading = useAppSelector(selectMessageFormSubmitLoading);
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -63,9 +67,16 @@ const MessageForm: React.FC = () => {
             />
           </Grid>
           <Grid item>
-            <Button type='submit' variant='contained' color='violet'>
-              SEND
-            </Button>
+            <LoadingButton
+              type='submit'
+              color='violet'
+              variant='contained'
+              endIcon={<SendIcon />}
+              loading={loading}
+              loadingPosition='end'
+            >
+              <span>Send</span>
+            </LoadingButton>
           </Grid>
         </Grid>
       </form>
