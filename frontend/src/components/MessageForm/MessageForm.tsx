@@ -13,6 +13,7 @@ import {
 import { postMessage } from '../../store/messageFormSlice/messageFormThunks';
 import { LoadingButton } from '@mui/lab';
 import SendIcon from '@mui/icons-material/Send';
+import { fetchMessages } from '../../store/messagesSlice/messagesThunks';
 
 const MessageForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -32,6 +33,7 @@ const MessageForm: React.FC = () => {
     e.preventDefault();
     await dispatch(postMessage(form));
     dispatch(clearForm());
+    dispatch(fetchMessages());
   };
 
   return (
