@@ -8,10 +8,11 @@ import {
   updateImage,
   updateMessage,
 } from '../../store/messageFormSlice/messageFormSlice';
+import { postMessage } from '../../store/messageFormSlice/messageFormThunks';
 
 const MessageForm: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { author, message } = useAppSelector(selectMessageForm);
+  const form = useAppSelector(selectMessageForm);
 
   const fileInputChangeHandler = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -25,9 +26,14 @@ const MessageForm: React.FC = () => {
     }
   };
 
+  const onFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await dispatch(postMessage(form))
+  }
+
   return (
     <Container sx={{ py: 3 }}>
-      <form>
+      <form onSubmit={onFormSubmit}>
         <Grid container rowSpacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -35,7 +41,7 @@ const MessageForm: React.FC = () => {
               type='text'
               name='author'
               label='Author'
-              value={author}
+              value={form.author}
               onChange={(e) => dispatch(updateAuthor(e.target.value))}
             />
           </Grid>
@@ -46,7 +52,7 @@ const MessageForm: React.FC = () => {
               name='message'
               label='Message'
               required
-              value={message}
+              value={form.message}
               onChange={(e) => dispatch(updateMessage(e.target.value))}
             />
           </Grid>

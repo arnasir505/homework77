@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+import { postMessage } from './messageFormThunks';
 
 interface MessageFormState {
   data: {
@@ -34,6 +35,20 @@ const messageFormSlice = createSlice({
     updateImage: (state, { payload: image }: PayloadAction<string>) => {
       state.data.image = image;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(postMessage.pending, (state) => {
+        state.error = false;
+        state.loading = true;
+      })
+      .addCase(postMessage.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(postMessage.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      });
   },
 });
 
