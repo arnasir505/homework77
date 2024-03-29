@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { MessageMutation } from '../../types';
+import { MessageWithoutId } from '../../types';
 import axiosApi from '../../axiosApi';
 
-export const postMessage = createAsyncThunk<void, MessageMutation>(
+export const postMessage = createAsyncThunk<void, MessageWithoutId>(
   'messages/post',
-  async (messageMutation) => {
+  async (message) => {
     try {
       const blobUrlToFile = async (blobUrl: string): Promise<File> => {
         const response = await fetch(blobUrl);
@@ -19,11 +19,11 @@ export const postMessage = createAsyncThunk<void, MessageMutation>(
 
       const formData = new FormData();
 
-      formData.append('author', messageMutation.author);
-      formData.append('message', messageMutation.message);
+      formData.append('author', message.author);
+      formData.append('message', message.message);
 
-      if (messageMutation.image) {
-        const imageAsFile = await blobUrlToFile(messageMutation.image);
+      if (message.image) {
+        const imageAsFile = await blobUrlToFile(message.image);
         formData.append('image', imageAsFile);
       }
 

@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { postMessage } from './messageFormThunks';
-import { Message } from '../../types';
+import { MessageWithoutId } from '../../types';
 
 interface MessageFormState {
-  data: Message;
+  data: MessageWithoutId;
   filename: string;
   loading: boolean;
   error: boolean;
