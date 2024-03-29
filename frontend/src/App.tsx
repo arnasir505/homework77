@@ -1,5 +1,11 @@
+import Appbar from './components/Appbar/Appbar';
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <Appbar />
+    </>
+  );
 }
 
 export default App;
