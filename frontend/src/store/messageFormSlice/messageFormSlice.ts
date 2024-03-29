@@ -1,13 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { postMessage } from './messageFormThunks';
+import { Message } from '../../types';
 
 interface MessageFormState {
-  data: {
-    author: string;
-    message: string;
-    image: string | null;
-  };
+  data: Message;
   filename: string;
   loading: boolean;
   error: boolean;
