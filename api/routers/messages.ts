@@ -22,7 +22,7 @@ messagesRouter.post('/', imagesUpload.single('image'), async (req, res) => {
     image: req.file ? req.file.filename : null,
   };
   await fileDb.addItem(messageData);
-  return res.send('OK');
+  return res.send(messageData);
 });
 
 export default messagesRouter;

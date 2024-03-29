@@ -6,18 +6,14 @@ export const postMessage = createAsyncThunk<void, MessageMutation>(
   'messages/post',
   async (messageMutation) => {
     try {
-      const getUrlExtension = (url: string): string => {
-        return url.split(/[#?]/)[0].split('.').pop()!.trim();
-      };
-
-      const onImageEdit = async (imgUrl: string): Promise<File> => {
-        var imgExt = getUrlExtension(imgUrl);
-
-        const response = await fetch(imgUrl);
+      const blobUrlToFile = async (blobUrl: string): Promise<File> => {
+        const response = await fetch(blobUrl);
         const blob = await response.blob();
-        const file = new File([blob], 'profileImage.' + imgExt, {
-          type: blob.type,
-        });
+
+        const filename = blobUrl.substring(blobUrl.lastIndexOf('/') + 1);
+
+        const file = new File([blob], filename, { type: blob.type });
+
         return file;
       };
 
@@ -27,7 +23,7 @@ export const postMessage = createAsyncThunk<void, MessageMutation>(
       formData.append('message', messageMutation.message);
 
       if (messageMutation.image) {
-        const imageAsFile = await onImageEdit(messageMutation.image);
+        const imageAsFile = await blobUrlToFile(messageMutation.image);
         formData.append('image', imageAsFile);
       }
 
