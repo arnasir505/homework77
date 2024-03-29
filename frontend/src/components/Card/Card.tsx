@@ -10,9 +10,9 @@ interface Props {
 
 const CardItem: React.FC<Props> = ({ author, message, image }) => {
   return (
-    <Card sx={{ my: 3, border: '1px solid', borderColor: 'violet.dark' }}>
+    <Card sx={{ my: 1, border: '1px solid', borderColor: 'violet.dark' }}>
       <CardContent>
-        <Typography gutterBottom variant='h5' component='div'>
+        <Typography gutterBottom variant='h6' component='div'>
           {author}
         </Typography>
         <Typography variant='body1'>{message}</Typography>

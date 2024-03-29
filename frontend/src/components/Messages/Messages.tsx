@@ -1,4 +1,10 @@
-import { Box, CircularProgress, Container, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Grid,
+  Typography,
+} from '@mui/material';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
@@ -29,7 +35,7 @@ const Messages: React.FC = () => {
 
   if (messages.length > 0 && !loading) {
     content = (
-      <>
+      <Grid container direction={'column-reverse'}>
         {messages.map((msg) => (
           <Card
             key={msg.id}
@@ -38,7 +44,7 @@ const Messages: React.FC = () => {
             image={msg.image}
           />
         ))}
-      </>
+      </Grid>
     );
   } else if (messages.length === 0 && !loading) {
     content = (
