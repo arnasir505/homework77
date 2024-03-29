@@ -1,6 +1,7 @@
 import express from 'express';
 import fileDb from '../fileDb';
 import { MessageWithoutId } from '../types';
+import { imagesUpload } from '../multer';
 
 const messagesRouter = express.Router();
 
@@ -9,7 +10,7 @@ messagesRouter.get('/', async (_req, res) => {
   return res.send(messages);
 });
 
-messagesRouter.post('/', async (req, res) => {
+messagesRouter.post('/', imagesUpload.single('image'), async (req, res) => {
   if (!req.body.message || req.body.message === '') {
     return res
       .status(400)
@@ -18,7 +19,7 @@ messagesRouter.post('/', async (req, res) => {
   const messageData: MessageWithoutId = {
     author: req.body.author ? req.body.author : 'Anonymous',
     message: req.body.message,
-    image: 'fakepath/image.jpg',
+    image: req.file ? req.file.filename : null,
   };
   await fileDb.addItem(messageData);
   return res.send('OK');
