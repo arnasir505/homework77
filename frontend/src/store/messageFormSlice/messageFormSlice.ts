@@ -8,6 +8,7 @@ interface MessageFormState {
     message: string;
     image: string | null;
   };
+  filename: string;
   loading: boolean;
   error: boolean;
 }
@@ -18,6 +19,7 @@ const initialState: MessageFormState = {
     message: '',
     image: null,
   },
+  filename: '',
   loading: false,
   error: false,
 };
@@ -34,6 +36,13 @@ const messageFormSlice = createSlice({
     },
     updateImage: (state, { payload: image }: PayloadAction<string>) => {
       state.data.image = image;
+    },
+    updateFilename: (state, { payload: filename }: PayloadAction<string>) => {
+      state.filename = filename;
+    },
+    clearForm: (state) => {
+      state.data = { author: '', message: '', image: null };
+      state.filename = '';
     },
   },
   extraReducers: (builder) => {
@@ -53,8 +62,15 @@ const messageFormSlice = createSlice({
 });
 
 export const messageFormReducer = messageFormSlice.reducer;
-export const { updateAuthor, updateMessage, updateImage } =
-  messageFormSlice.actions;
+export const {
+  updateAuthor,
+  updateMessage,
+  updateImage,
+  updateFilename,
+  clearForm,
+} = messageFormSlice.actions;
 export const selectMessageForm = (state: RootState) => state.messageForm.data;
+export const selectMessageFormImageName = (state: RootState) =>
+  state.messageForm.filename;
 export const selectMessageFormSubmitLoading = (state: RootState) =>
   state.messageForm.loading;

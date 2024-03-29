@@ -1,5 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Button, Grid, TextField } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import {
+  selectMessageFormImageName,
+  updateFilename,
+} from '../../../store/messageFormSlice/messageFormSlice';
 
 interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,13 +14,14 @@ interface Props {
 
 const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [filename, setFilename] = useState('');
+  const dispatch = useAppDispatch();
+  const filename = useAppSelector(selectMessageFormImageName);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFilename(e.target.files[0].name);
+      dispatch(updateFilename(e.target.files[0].name));
     } else {
-      setFilename('');
+      dispatch(updateFilename(''));
     }
 
     onChange(e);

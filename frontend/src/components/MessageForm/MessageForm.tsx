@@ -3,6 +3,7 @@ import { Button, Container, Grid, TextField } from '@mui/material';
 import FileInput from '../UI/FileInput/FileInput';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
+  clearForm,
   selectMessageForm,
   updateAuthor,
   updateImage,
@@ -14,22 +15,20 @@ const MessageForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const form = useAppSelector(selectMessageForm);
 
-  const fileInputChangeHandler = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
 
-    if (files) {
-      console.log(files[0]);
+    if (files && files[0]) {
       const localImageUrl = window.URL.createObjectURL(files[0]);
-      await dispatch(updateImage(localImageUrl));
+      dispatch(updateImage(localImageUrl));
     }
   };
 
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await dispatch(postMessage(form))
-  }
+    await dispatch(postMessage(form));
+    dispatch(clearForm());
+  };
 
   return (
     <Container sx={{ py: 3 }}>
