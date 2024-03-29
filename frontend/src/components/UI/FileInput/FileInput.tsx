@@ -32,6 +32,7 @@ const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
       <input
         style={{ display: 'none' }}
         type='file'
+        accept='.jpg, .jpeg, .png'
         name={name}
         onChange={onFileChange}
         ref={inputRef}
@@ -41,7 +42,7 @@ const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
         <Grid item xs>
           <TextField
             fullWidth
-            inputProps={{readOnly: true}}
+            inputProps={{ readOnly: true }}
             label={label}
             value={filename}
             onClick={activateInput}

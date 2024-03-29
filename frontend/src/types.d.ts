@@ -1,5 +1,11 @@
 export interface MessageMutation {
-  author: string | null;
+  author: string;
+  message: string;
+  image: string | null;
+}
+
+export interface MessageMutationWithFileImg {
+  author: string;
   message: string;
   image: File | null;
 }

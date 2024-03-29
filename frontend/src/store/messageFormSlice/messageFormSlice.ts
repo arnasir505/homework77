@@ -1,10 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
 
 interface MessageFormState {
   data: {
-    author: string | null;
+    author: string;
     message: string;
-    image: File | null;
+    image: string | null;
   };
   loading: boolean;
   error: boolean;
@@ -12,7 +13,7 @@ interface MessageFormState {
 
 const initialState: MessageFormState = {
   data: {
-    author: null,
+    author: '',
     message: '',
     image: null,
   },
@@ -30,10 +31,15 @@ const messageFormSlice = createSlice({
     updateMessage: (state, { payload: message }: PayloadAction<string>) => {
       state.data.message = message;
     },
-    updateImage: (state, { payload: image }: PayloadAction<File>) => {
+    updateImage: (state, { payload: image }: PayloadAction<string>) => {
       state.data.image = image;
     },
   },
 });
 
 export const messageFormReducer = messageFormSlice.reducer;
+export const { updateAuthor, updateMessage, updateImage } =
+  messageFormSlice.actions;
+export const selectMessageForm = (state: RootState) => state.messageForm.data;
+export const selectMessageFormSubmitLoading = (state: RootState) =>
+  state.messageForm.loading;
